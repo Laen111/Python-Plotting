@@ -31,9 +31,6 @@ def testRun(data):
 # currentTime is the current index of timeArray, which is an array of every time step the animation will undergo
 # when making a new one, keep formatting ((timeArray,currentTime,extraParams), )
 def testDataFunction(timeArray, currentTime):
-    if verbose:
-        if currentTime%25 == 0:
-            print("\nOn step "+str(currentTime)+" of "+str(len(timeArray))+"\t"+'{0:.1f}'.format(100*currentTime/len(timeArray))+"% complete\n"+'{0:.1f}'.format(time.process_time()/60/60)+" minutes elapsed\t"+'{0:.1f}'.format(time.process_time()*(len(timeArray)/(currentTime+0.1) - 1)/60/60)+" hours remain")
     Xs = [timeArray[i] for i in range(currentTime)]
     Ys = [np.exp(-timeArray[i]) for i in range(currentTime)]
     return Xs, Ys
@@ -43,6 +40,9 @@ def testDataFunction(timeArray, currentTime):
 def genFunc(timeArray, dataFunction, dataFuncParams):
     t = 0
     while t < len(timeArray):
+        if verbose:
+            if t%25 == 0:
+                print("\nOn step "+str(t)+" of "+str(len(timeArray))+"\t"+'{0:.1f}'.format(100*t/len(timeArray))+"% complete\n"+'{0:.1f}'.format(time.process_time()/60/60)+" minutes elapsed\t"+'{0:.1f}'.format(time.process_time()*(len(timeArray)/(t+0.1) - 1)/60/60)+" hours remain")
         yield dataFunction(timeArray, t, *dataFuncParams)
         t += 1
 
