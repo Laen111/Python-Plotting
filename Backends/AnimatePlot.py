@@ -47,10 +47,12 @@ def genFunc(timeArray, dataFunction, dataFuncParams):
     t = 0
     while t < len(timeArray):
         if gl.verbose:
-            if t%25 == 0:
-                print("\nOn step "+str(t)+" of "+str(len(timeArray))+"\t"+'{0:.1f}'.format(100*t/len(timeArray))+"% complete\n"+'{0:.1f}'.format(time.process_time()/60/60)+" minutes elapsed\t"+'{0:.1f}'.format(time.process_time()*(len(timeArray)/(t+0.1) - 1)/60/60)+" hours remain")
+            if t%10 == 0:
+                print("\nOn step "+str(t)+" of "+str(len(timeArray))+"\t"+'{0:.1f}'.format(100*t/len(timeArray))+"% complete\n"+'{0:.1f}'.format(time.process_time()/60)+" minutes elapsed\t"+'{0:.1f}'.format(time.process_time()*(len(timeArray)/(t+0.1) - 1)/60)+" minutes remain") 
         yield dataFunction(timeArray, t, *dataFuncParams)
         t += 1
+    if gl.verbose:
+        print("Finished Animation")
 
 # this is the main function used to create animations
 # dataFunc is the function used to construct new data for each frame
