@@ -2,15 +2,21 @@
 # Animating Plots file
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 import numpy as np
 import matplotlib.pyplot as plot
 import matplotlib.animation as ani
 import ReadAndPlot as rp
-if verbose:
+import Globals as gl
+
+if gl.verbose:
     import time
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# put functions here
+# Functions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # test function to initalize test animation
@@ -69,6 +75,10 @@ def aniOutput(myAnimation, savefigname=None, framerate=30, resolution=500, bitra
         plot.show()
     else:
         myAnimation.save(filename=savefigname, fps=framerate, dpi=resolution, bitrate=bitrate)
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Scripting
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # test animation
 # to save as mp4 file, you'll need FFmpeg installed and added to your Path:
