@@ -46,7 +46,7 @@ def testDataFunction(timeArray, currentTime):
 def genFunc(timeArray, dataFunction, dataFuncParams):
     t = 0
     while t < len(timeArray):
-        if verbose:
+        if gl.verbose:
             if t%25 == 0:
                 print("\nOn step "+str(t)+" of "+str(len(timeArray))+"\t"+'{0:.1f}'.format(100*t/len(timeArray))+"% complete\n"+'{0:.1f}'.format(time.process_time()/60/60)+" minutes elapsed\t"+'{0:.1f}'.format(time.process_time()*(len(timeArray)/(t+0.1) - 1)/60/60)+" hours remain")
         yield dataFunction(timeArray, t, *dataFuncParams)
@@ -60,8 +60,6 @@ def genFunc(timeArray, dataFunction, dataFuncParams):
 # initFunc is the function called once at the begining of the animation
 # runningFunc is the function called every frame, its only parameter is the return value of the dataFunc
 def animate(dataFunc=testDataFunction, dataFuncParams=[], timeArray=np.linspace(0,12,100), frameTime=30, initFunc=testInit, runningFunc=testRun):
-    if not isinstance(dataFuncParams, list):
-        raise ValueError("dataFuncParams must be a list (even if it is just a single entry, eg. dataFuncParams=[alpha])")
     return ani.FuncAnimation(plot.figure(), runningFunc, genFunc(timeArray,dataFunc,dataFuncParams), interval=frameTime, init_func=initFunc, save_count=len(timeArray))
 
 # outputs the animation

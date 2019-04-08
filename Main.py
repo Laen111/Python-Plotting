@@ -28,7 +28,7 @@ gl.verbose = False
 if gl.verbose:
 	print("\n~~~~~~~~~~~~~~~~~~~~~~~\n 'verbose' set to True \n~~~~~~~~~~~~~~~~~~~~~~~\n")
 
-gl.save = True
+gl.save = False
 if gl.save:
 	print("\n~~~~~~~~~~~~~~~~~~~~\n 'save' set to True \n~~~~~~~~~~~~~~~~~~~~\n")
 
@@ -52,6 +52,18 @@ def expFit(x, A, B, C):
 	exp = np.exp(1)
 	return A * exp**(np.multiply(B,x)) + C
 
+def expInit():
+    return rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Test animation of exponential decay", grid=True, log=False, xLimits=[0,10], yLimits=[-0.1,1.1])
+
+def expRun(data):
+    ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Test animation of exponential decay", grid=True, log=False, xLimits=[0,10], yLimits=[-0.1,1.1])
+    rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=True)
+
+def expData(timeArray, currentTime, A, B, C):
+    Xs = [timeArray[i] for i in range(currentTime)]
+    Ys = [expFit(x, A, B, C) for i in range(currentTime)]
+    return Xs, Ys
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Scripting
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,12 +75,13 @@ rp.writeColumnFile(dataFolder+"expDecayTest.dat", [xValues, yValues], "Test data
 
 # read and plot data
 data = rp.readColumnFile(dataFolder+"expDecayTest.dat", header=2)
-ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decaying exponential data randomly generated ", grid=True, log=False, xLimits=None, yLimits=None)
+ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decaying exponential data randomly generated", grid=True, log=False, xLimits=[0,10], yLimits=[-0.1,1.1])
 rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False)
 if gl.save:
 	rp.plotOutput(savefigname=plotFolder+"expDecayTest.png",resolution=500)
 else:
 	rp.plotOutput()
+
 
 # fit data
 fitResults = fd.fitting(data[0], data[1], function=expFit, errYs=None, initGuess=None, bounds=(-5,5), attempts=10000)
@@ -86,10 +99,19 @@ ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decayin
 rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False)
 rp.plotData(ax, data[0], fitYs, eXs=0, eYs=errYs, dataLabel=r"Fit data", colour="Red", lines=True)
 if gl.save:
-	rp.plotOutput(savefigname=plotFolder+"expDecayTest.png",resolution=500)
+	rp.plotOutput(savefigname=plotFolder+"expDecayFitTest.png",resolution=500)
 else:
 	rp.plotOutput()
 
 print("Fit results:\nA\tB\tC")
 for element in popt:
 	print("{:.2}".format(element)+"\t", end="")
+print()
+
+
+# animation example
+myAni = ap.animate(dataFunc=expData, dataFuncParams=popt, timeArray=data[0], frameTime=30, initFunc=expInit, runningFunc=expRun)
+if gl.save:
+	ap.aniOutput(myAni, savefigname=animationFolder+"expDecayAniTest.mp4", framerate=10, resolution=500, bitrate=None)
+else:
+	ap.aniOutput(myAni)
