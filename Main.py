@@ -17,6 +17,7 @@ import FittingData as fd
 import ReadAndPlot as rp
 import AnimatePlot as ap
 from uncertainties import ufloat
+from uncertainties import umath
 from uncertainties import unumpy
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -27,7 +28,7 @@ gl.verbose = False
 if gl.verbose:
 	print("\n~~~~~~~~~~~~~~~~~~~~~~~\n 'verbose' set to True \n~~~~~~~~~~~~~~~~~~~~~~~\n")
 
-gl.save = False
+gl.save = True
 if gl.save:
 	print("\n~~~~~~~~~~~~~~~~~~~~\n 'save' set to True \n~~~~~~~~~~~~~~~~~~~~\n")
 
@@ -47,14 +48,48 @@ animationFolder = "./Animations/"
 # Functions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def expDecay(x, xErr=0):
-	if xErr == 0:
-		xVal = ufloat(x, xErr)
-		result = m.exp(-xVal)
-		return [result.n, result.s]
-	else:
-		return m.exp(-x)
+def expFit(x, A, B, C):
+	exp = np.exp(1)
+	return A * exp**(np.multiply(B,x)) + C
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Scripting
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# generate an write data
+xValues = np.linspace(0,10,100)
+yValues = fd.testData(xValues, expFit, params=[1,-1,0], errY=0.1, seed=21448)
+rp.writeColumnFile(dataFolder+"expDecayTest.dat", [xValues, yValues], "Test data of decaying exponential\nXs\tYs")
+
+# read and plot data
+data = rp.readColumnFile(dataFolder+"expDecayTest.dat", header=2)
+ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decaying exponential data randomly generated ", grid=True, log=False, xLimits=None, yLimits=None)
+rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False)
+if gl.save:
+	rp.plotOutput(savefigname=plotFolder+"expDecayTest.png",resolution=500)
+else:
+	rp.plotOutput()
+
+# fit data
+fitResults = fd.fitting(data[0], data[1], function=expFit, errYs=None, initGuess=None, bounds=(-5,5), attempts=10000)
+popt, pcov = fitResults[0], fitResults[1]
+
+params = [ufloat(popt[i], m.sqrt(pcov[i][i])) for i in range(len(popt))]
+fitYs = []
+errYs = []
+for x in data[0]:
+	value = expFit(x,*params)
+	fitYs.append(value.n)
+	errYs.append(value.s)
+
+ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decaying exponential fit", grid=True, log=False, xLimits=None, yLimits=None)
+rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False)
+rp.plotData(ax, data[0], fitYs, eXs=0, eYs=errYs, dataLabel=r"Fit data", colour="Red", lines=True)
+if gl.save:
+	rp.plotOutput(savefigname=plotFolder+"expDecayTest.png",resolution=500)
+else:
+	rp.plotOutput()
+
+print("Fit results:\nA\tB\tC")
+for element in popt:
+	print("{:.2}".format(element)+"\t", end="")

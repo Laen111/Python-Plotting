@@ -52,7 +52,7 @@ def writeColumnFile(filename, data, header=None):
 
 # note plotInit returns ax, the axis that holds the legend - need to pass this to plotData to make legend work
 # chose linear or log scale and limits for x and y axes
-def plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]",plotTitle=r"Default Title", grid=True, log=False, xLimits=None, yLimits=None):
+def plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Default Title", grid=True, log=False, xLimits=None, yLimits=None):
 	plot.clf()
 	ax = plot.subplot(111)
 	box = ax.get_position()
@@ -76,12 +76,12 @@ def plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]",plotTitle=r"Default Titl
 
 # call for as much data as you want
 # don't forget to pass ax from plotInit() to make the legend work!
-def plotData(ax, dXs, dYs, eXs=0, eYs=0, dataLabel=r"default", colour="Blue", lines=False):
-	plot.errorbar(dXs, dYs, xerr=eXs, yerr=eYs, ecolor=colour, fmt='none', elinewidth=0.3)
+def plotData(ax, datXs, datYs, eXs=0, eYs=0, dataLabel=r"default", colour="Blue", lines=False):
+	plot.errorbar(datXs, datYs, xerr=eXs, yerr=eYs, ecolor=colour, fmt='none', elinewidth=0.3)
 	if lines:
-		plot.plot(dXs, dYs, label=dataLabel, color=colour, marker='', linestyle='-', linewidth=0.8)
+		plot.plot(datXs, datYs, label=dataLabel, color=colour, marker='', linestyle='-', linewidth=0.8)
 	else:
-		plot.plot(dXs, dYs, label=dataLabel, color=colour, marker='.', linestyle='', markersize=0.8)
+		plot.plot(datXs, datYs, label=dataLabel, color=colour, marker='.', linestyle='', markersize=0.8)
 	ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
 # plots a 2D image

@@ -57,8 +57,6 @@ def fitting(datXs, datYs, function=func, errYs=None, initGuess=None, bounds=(-np
 
 # returns points of the function
 def fitYs(datXs, popt, function=func):
-	if not isinstance(popt, list):
-		raise ValueError("popt must be a list (even if it is just a single entry, eg. params=[alpha])")
 	return function(datXs,*popt)
 
 # creates test data to fit to using function and Y error provied
@@ -69,5 +67,5 @@ def testData(datXs, function=func, params=[1,0], errY=0, seed=25478):
 	np.random.seed(seed)
 	datYs = []
 	for x in datXs:
-		datYs.append(np.random.normal(loc=func(x,*params), scale=errY))
+		datYs.append(np.random.normal(loc=function(x,*params), scale=errY))
 	return datYs
