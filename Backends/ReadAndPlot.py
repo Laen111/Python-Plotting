@@ -90,9 +90,12 @@ def plotData(ax, datXs, datYs, eXs=0, eYs=0, dataLabel=r"default", colour="Blue"
 # binNumber is the number of bins to draw
 # normed normalizes
 # binWidth gives fraction of binWidth to draw bins in
-def plotHist(ax, binCounts, binNumber=None, normed=False, binWidth=1, log=False, binColour="Blue", dataLabel=r"Default"):
-	plot.hist(binCounts, bins=binNumber, density=normed, align='mid', rwidth=binWidth, log=log, color=binColour, label=dataLabel)
+def plotHist(ax, binCounts, binNumber=None, xLimits=None, normed=False, binWidth=1, log=False, binColour="Blue", dataLabel=r"Default"):
+	if xLimits == None:
+		xLimits = [min(binCounts), max(binCounts)]
+	n, bins, patches = plot.hist(binCounts, bins=binNumber, range=(xLimits[0], xLimits[1]), density=normed, align='mid', rwidth=binWidth, log=log, color=binColour, label=dataLabel)
 	ax.legend(loc='center left', bbox_to_anchor=(1,0.5))
+	return n, bins, patches
 
 # plots a 2D image
 # dataArray is a 2D array with valued entries, this informs the colour scale
