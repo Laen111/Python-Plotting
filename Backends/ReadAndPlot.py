@@ -84,6 +84,16 @@ def plotData(ax, datXs, datYs, eXs=0, eYs=0, dataLabel=r"default", colour="Blue"
 		plot.plot(datXs, datYs, label=dataLabel, color=colour, marker='.', linestyle='', markersize=0.8)
 	ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
+# plots a 1D histogram
+# don't forget to pass ax from plotInit() to make the legend work!
+# binCouts is an array with an entries that label count events by their bin number
+# binNumber is the number of bins to draw
+# normed normalizes
+# binWidth gives fraction of binWidth to draw bins in
+def plotHist(ax, binCounts, binNumber=None, normed=False, binWidth=1, log=False, binColour="Blue", dataLabel=r"Default"):
+	plot.hist(binCounts, bins=binNumber, density=normed, align='mid', rwidth=binWidth, log=log, color=binColour, label=dataLabel)
+	ax.legend(loc='center left', bbox_to_anchor=(1,0.5))
+
 # plots a 2D image
 # dataArray is a 2D array with valued entries, this informs the colour scale
 # see all maps here: https://matplotlib.org/gallery/color/colormap_reference.html
