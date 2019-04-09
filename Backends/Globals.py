@@ -8,3 +8,4 @@
 
 verbose = False
 save = False
+plot = True

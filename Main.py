@@ -20,6 +20,10 @@ gl.save = True
 if gl.save:
 	print("\n~~~~~~~~~~~~~~~~~~~~\n 'save' set to True \n~~~~~~~~~~~~~~~~~~~~\n")
 
+gl.plot = True
+if gl.plot:
+	print("\n~~~~~~~~~~~~~~~~~~~~\n 'plot' set to True \n~~~~~~~~~~~~~~~~~~~~\n")
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Imports
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -78,10 +82,11 @@ def expData(timeArray, currentTime, A, B, C):
 data = rp.readColumnFile(dataFolder+"expDecayTest.dat", header=2)
 # ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decaying exponential data randomly generated", grid=True, log=False, xLimits=[0,10], yLimits=[-0.1,1.1])
 # rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False)
-# if gl.save:
-# 	rp.plotOutput(savefigname=plotFolder+"expDecayTest.png",resolution=500)
-# else:
-# 	rp.plotOutput()
+# if gl.plot:
+# 	if gl.save:
+# 		rp.plotOutput(savefigname=plotFolder+"expDecayTest.png",resolution=500)
+# 	else:
+# 		rp.plotOutput()
 
 
 # fit data
@@ -99,10 +104,11 @@ for x in data[0]:
 ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decaying exponential fit", grid=True, log=False, xLimits=None, yLimits=None)
 rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False)
 rp.plotData(ax, data[0], fitYs, eXs=0, eYs=errYs, dataLabel=r"Fit data", colour="Red", lines=True)
-if gl.save:
-	rp.plotOutput(savefigname=plotFolder+"expDecayFitTest.png",resolution=500)
-else:
-	rp.plotOutput()
+if gl.plot:
+	if gl.save:
+		rp.plotOutput(savefigname=plotFolder+"expDecayFitTest.png",resolution=500)
+	else:
+		rp.plotOutput()
 
 print("Fit results:\nA\tB\tC")
 for element in popt:
@@ -112,7 +118,8 @@ print()
 
 # animation example
 myAni = ap.animate(dataFunc=expData, dataFuncParams=popt, timeArray=data[0], frameTime=30, initFunc=expInit, runningFunc=expRun)
-if gl.save:
-	ap.aniOutput(myAni, savefigname=animationFolder+"expDecayAniTest.mp4", framerate=10, resolution=500, bitrate=None)
-else:
-	ap.aniOutput(myAni)
+if gl.plot:
+	if gl.save:
+		ap.aniOutput(myAni, savefigname=animationFolder+"expDecayAniTest.mp4", framerate=10, resolution=500, bitrate=None)
+	else:
+		ap.aniOutput(myAni)
