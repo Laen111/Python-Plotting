@@ -65,6 +65,9 @@ def plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Default Tit
 	if log:
 		plot.yscale('log')
 		plot.xscale('log')
+		if grid:
+			plot.grid(b=True, which='major', color='darkgray', linestyle='-')
+			plot.grid(b=True, which='minor', axis='y', color='lightgray', linestyle='--')
 	
 	if xLimits != None:
 		plot.xlim(xLimits[0],xLimits[1])
