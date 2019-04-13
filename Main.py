@@ -12,11 +12,11 @@ sys.path.insert(0, './Backends')
 # file supports global variables for the whole project
 import Globals as gl
 
-gl.verbose = True
+gl.verbose = False
 if gl.verbose:
 	print("\n~~~~~~~~~~~~~~~~~~~~~~~\n 'verbose' set to True \n~~~~~~~~~~~~~~~~~~~~~~~\n")
 
-gl.save = True
+gl.save = False
 if gl.save:
 	print("\n~~~~~~~~~~~~~~~~~~~~\n 'save' set to True \n~~~~~~~~~~~~~~~~~~~~\n")
 
