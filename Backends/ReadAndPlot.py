@@ -11,6 +11,13 @@ from matplotlib.colors import LogNorm # used to do log colour on plot2D
 import numpy as np # for lognorm (gets max and min of data)
 import Globals as gl
 
+params = {'legend.fontsize': 12,
+         'axes.labelsize': 16,
+         'axes.titlesize': 18,
+         'xtick.labelsize': 14,
+         'ytick.labelsize': 14}
+plot.rcParams.update(params)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Functions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
