@@ -9,3 +9,6 @@
 verbose = False
 save = False
 plot = True
+fontscale = 1.0
+lengthscale = 1.0
+widthscale = 1.0

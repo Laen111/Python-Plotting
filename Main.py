@@ -1,6 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Main File
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Global Toggles
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,6 +24,18 @@ if gl.save:
 gl.plot = True
 if gl.plot:
 	print("\n~~~~~~~~~~~~~~~~~~~~\n 'plot' set to True \n~~~~~~~~~~~~~~~~~~~~\n")
+
+gl.fontscale = 1.0
+if gl.fontscale != 1.0:
+	print("\n~~~~~~~~~~~~~~~~~~~~~~~\n 'fontscale' set to "+str(gl.fontscale)+"\n~~~~~~~~~~~~~~~~~~~~~~~\n")
+
+gl.lengthscale = 1.0
+if gl.lengthscale != 1.0:
+	print("\n~~~~~~~~~~~~~~~~~~~~~~~~~\n 'lengthscale' set to "+str(gl.lengthscale)+"\n~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+
+gl.widthscale = 1.0
+if gl.widthscale != 1.0:
+	print("\n~~~~~~~~~~~~~~~~~~~~~~~~\n 'widthscale' set to "+str(gl.widthscale)+"\n~~~~~~~~~~~~~~~~~~~~~~~\n")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Imports
@@ -62,7 +75,7 @@ def expInit():
 
 def expRun(data):
     ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Test animation of exponential decay", grid=True, log=False, xLimits=[0,10], yLimits=[-0.1,1.1])
-    rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=True)
+    rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=True, scale=1.0)
 
 def expData(timeArray, currentTime, A, B, C):
 	Xs = [timeArray[i] for i in range(currentTime)]
@@ -73,20 +86,20 @@ def expData(timeArray, currentTime, A, B, C):
 # Scripting
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# # generate an write data
-# xValues = np.linspace(0,10,100)
-# yValues = fd.testData(xValues, expFit, params=[1,-1,0], errY=0.1, seed=21448)
-# rp.writeColumnFile(dataFolder+"expDecayTest.dat", [xValues, yValues], "Test data of decaying exponential\nXs\tYs")
+# generate an write data
+xValues = np.linspace(0,10,100)
+yValues = fd.testData(xValues, expFit, params=[1,-1,0], errY=0.1, seed=21448)
+rp.writeColumnFile(dataFolder+"expDecayTest.dat", [xValues, yValues], "Test data of decaying exponential\nXs\tYs")
 
-# # read and plot data
+# read and plot data
 data = rp.readColumnFile(dataFolder+"expDecayTest.dat", header=2)
-# ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decaying exponential data randomly generated", grid=True, log=False, xLimits=[0,10], yLimits=[-0.1,1.1])
-# rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False)
-# if gl.plot:
-# 	if gl.save:
-# 		rp.plotOutput(savefigname=plotFolder+"expDecayTest.png",resolution=500)
-# 	else:
-# 		rp.plotOutput()
+ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decaying exponential data randomly generated", grid=True, log=False, xLimits=[0,10], yLimits=[-0.1,1.1])
+rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False, scale=1.0)
+if gl.plot:
+	if gl.save:
+		rp.plotOutput(savefigname=plotFolder+"expDecayTest.png",resolution=500)
+	else:
+		rp.plotOutput()
 
 
 # fit data
@@ -102,8 +115,8 @@ for x in data[0]:
 	errYs.append(value.s)
 
 ax = rp.plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Decaying exponential fit", grid=True, log=False, xLimits=None, yLimits=None)
-rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False)
-rp.plotData(ax, data[0], fitYs, eXs=0, eYs=errYs, dataLabel=r"Fit data", colour="Red", lines=True)
+rp.plotData(ax, data[0], data[1], eXs=0, eYs=0, dataLabel=r"$y=e^{-x}$", colour="Blue", lines=False, scale=1.0)
+rp.plotData(ax, data[0], fitYs, eXs=0, eYs=errYs, dataLabel=r"Fit data", colour="Red", lines=True, scale=1.0)
 if gl.plot:
 	if gl.save:
 		rp.plotOutput(savefigname=plotFolder+"expDecayFitTest.png",resolution=500)

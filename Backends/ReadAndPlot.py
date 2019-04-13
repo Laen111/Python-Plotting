@@ -11,11 +11,13 @@ from matplotlib.colors import LogNorm # used to do log colour on plot2D
 import numpy as np # for lognorm (gets max and min of data)
 import Globals as gl
 
-params = {'legend.fontsize': 12,
-         'axes.labelsize': 16,
-         'axes.titlesize': 18,
-         'xtick.labelsize': 14,
-         'ytick.labelsize': 14}
+# rescale all the font sizes and image size
+params = {'figure.figsize': [plot.rcParams['figure.figsize'][0]*gl.widthscale, plot.rcParams['figure.figsize'][1]*gl.lengthscale],
+		'axes.titlesize': 12*gl.fontscale,
+		'axes.labelsize': 10*gl.fontscale,
+		'legend.fontsize': 8*gl.fontscale,
+		'xtick.labelsize': 8*gl.fontscale,
+		'ytick.labelsize': 8*gl.fontscale}
 plot.rcParams.update(params)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,12 +90,12 @@ def plotInit(xAx=r"Xs [unitless]", yAx=r"Ys [unitless]", plotTitle=r"Default Tit
 
 # call for as much data as you want
 # don't forget to pass ax from plotInit() to make the legend work!
-def plotData(ax, datXs, datYs, eXs=0, eYs=0, dataLabel=r"default", colour="Blue", lines=False):
-	plot.errorbar(datXs, datYs, xerr=eXs, yerr=eYs, ecolor=colour, fmt='none', elinewidth=0.3)
+def plotData(ax, datXs, datYs, eXs=0, eYs=0, dataLabel=r"default", colour="Blue", lines=False, scale=1.0):
+	plot.errorbar(datXs, datYs, xerr=eXs, yerr=eYs, ecolor=colour, fmt='none', elinewidth=0.4*scale)
 	if lines:
-		plot.plot(datXs, datYs, label=dataLabel, color=colour, marker='', linestyle='-', linewidth=0.8)
+		plot.plot(datXs, datYs, label=dataLabel, color=colour, marker='', linestyle='-', linewidth=0.9*scale)
 	else:
-		plot.plot(datXs, datYs, label=dataLabel, color=colour, marker='.', linestyle='', markersize=0.8)
+		plot.plot(datXs, datYs, label=dataLabel, color=colour, marker='.', linestyle='', markersize=1.2*scale)
 	ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
 # plots a 1D histogram
