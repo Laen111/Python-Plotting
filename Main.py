@@ -17,7 +17,7 @@ gl.verbose = False
 if gl.verbose:
 	print("\n~~~~~~~~~~~~~~~~~~~~~~~\n 'verbose' set to True \n~~~~~~~~~~~~~~~~~~~~~~~\n")
 
-gl.save = False
+gl.save = True
 if gl.save:
 	print("\n~~~~~~~~~~~~~~~~~~~~\n 'save' set to True \n~~~~~~~~~~~~~~~~~~~~\n")
 
@@ -92,20 +92,21 @@ animationFolder = "./Animations/"
 # rp.writeColumnFile(dataFolder+"expDecayTest.dat", [xValues, yValues], "Test data of decaying exponential\nXs\tYs")
 
 # read and plot data
-data = rp.readColumnFile(dataFolder+"nuyield_ptr_output_onesignal.dat", header=1)
-logNuEner = [] #log10(neutrio energy/GeV)  is nuyield input
-for entry in data[0]:
-	logNuEner.append(10**entry)
-nuYield = data[1] # m^-2 GeV^-1 annihilation^-1  is nuyield output for neutrinos
-antiNuYield = data[2] # m^-2 GeV^-1 annihilation^-1  is nuyield output for anti neutrinos
-ax = rp.plotInit(xAx=r"Neutrino Energy [GeV]", yAx=r"Neutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output after one signal.f call", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
-rp.plotData(ax, logNuEner, nuYield, eXs=0, eYs=0, dataLabel=r"Neutrinos", colour="Blue", lines=False, scale=1.0)
-rp.plotData(ax, logNuEner, antiNuYield, eXs=0, eYs=0, dataLabel=r"Antineutrinos", colour="Red", lines=False, scale=1.0)
-if gl.plot:
-	if gl.save:
-		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_after_one_signal_dot_f_call.pdf",resolution=500)
-	else:
-		rp.plotOutput()
+for dmMass in range(90,221,10):
+	data = rp.readColumnFile(dataFolder+"nuyield_ptr_output_"+str(dmMass)+".dat", header=1)
+	logNuEner = [] #log10(neutrio energy/GeV)  is nuyield input
+	for entry in data[0]:
+		logNuEner.append(10**entry)
+	nuYield = data[1] # m^-2 GeV^-1 annihilation^-1  is nuyield output for neutrinos
+	antiNuYield = data[2] # m^-2 GeV^-1 annihilation^-1  is nuyield output for anti neutrinos
+	ax = rp.plotInit(xAx=r"Neutrino Energy [GeV]", yAx=r"Neutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for Dark Matter mass of "+str(dmMass)+" GeV", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
+	rp.plotData(ax, logNuEner, nuYield, eXs=0, eYs=0, dataLabel=r"Neutrinos", colour="Blue", lines=False, scale=1.0)
+	rp.plotData(ax, logNuEner, antiNuYield, eXs=0, eYs=0, dataLabel=r"Antineutrinos", colour="Red", lines=False, scale=1.0)
+	if gl.plot:
+		if gl.save:
+			rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_"+str(dmMass)+"GeV.pdf",resolution=500)
+		else:
+			rp.plotOutput()
 
 
 # # fit data
