@@ -96,10 +96,10 @@ eners = []
 nus = []
 antinus = []
 dmSmall = 90
-dmLarge = 220
+dmLarge = 190
 dmMasses = np.linspace(dmSmall,dmLarge,(dmLarge-dmSmall)/10+1, dtype="int")
 for dmMass in dmMasses:
-	data = rp.readColumnFile(dataFolder+"nuyield_ptr_output_"+str(dmMass)+".dat", header=1)
+	data = rp.readColumnFile(dataFolder+"nuyield_ptr_output_WW_"+str(dmMass)+".dat", header=1)
 	logNuEner = [] #log10(neutrio energy/GeV)  is nuyield input
 	for entry in data[0]:
 		logNuEner.append(10**entry)
@@ -107,32 +107,32 @@ for dmMass in dmMasses:
 	nus.append(data[1]) # m^-2 GeV^-1 annihilation^-1  is nuyield output for neutrinos
 	antinus.append(data[2]) # m^-2 GeV^-1 annihilation^-1  is nuyield output for anti neutrinos
 
-colours = ["black","slategrey","brown","lightsalmon","darkorange","goldenrod","yellow","darkolivegreen","lawngreen","aqua","steelblue","navy","purple"]
-ax = rp.plotInit(xAx=r"Neutrino Energy [GeV]", yAx=r"Neutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for neutrinos", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
+colours = ["black","slategrey","darkorange","yellow","darkolivegreen","lawngreen","aqua","steelblue","navy","purple"]
+ax = rp.plotInit(xAx=r"Neutrino Energy [GeV]", yAx=r"Neutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for neutrinos WW annihilation", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
 for i in range(len(colours)):
 	rp.plotData(ax, eners[i], nus[i], eXs=0, eYs=0, dataLabel=r"Nu for DM mass of "+str(dmMasses[i])+"GeV", colour=colours[i], lines=False, scale=0.5, marker='x')
 if gl.plot:
 	if gl.save:
-		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_neutrinos.pdf",resolution=500)
+		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_neutrinos_WW.pdf",resolution=500)
 	else:
 		rp.plotOutput()
 
-ax = rp.plotInit(xAx=r"Antineutrino Energy [GeV]", yAx=r"Antineutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for antineutrinos", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
+ax = rp.plotInit(xAx=r"Antineutrino Energy [GeV]", yAx=r"Antineutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for antineutrinos WW annihilation", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
 for i in range(len(colours)):
 	rp.plotData(ax, eners[i], antinus[i], eXs=0, eYs=0, dataLabel=r"Antinu for DM mass of "+str(dmMasses[i])+"GeV", colour=colours[i], lines=False, scale=0.5, marker='s')
 if gl.plot:
 	if gl.save:
-		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_antineutrinos.pdf",resolution=500)
+		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_antineutrinos_WW.pdf",resolution=500)
 	else:
 		rp.plotOutput()
 
-ax = rp.plotInit(xAx=r"Neutrino Energy [GeV]", yAx=r"Neutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for neutrinos and antineutrinos", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
+ax = rp.plotInit(xAx=r"Neutrino Energy [GeV]", yAx=r"Neutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for neutrinos and antineutrinos WW annihilation", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
 for i in range(len(colours)):
 	rp.plotData(ax, eners[i], nus[i], eXs=0, eYs=0, dataLabel=r"Nu for DM mass of "+str(dmMasses[i])+"GeV", colour=colours[i], lines=False, scale=0.5, marker='x')
 	rp.plotData(ax, eners[i], antinus[i], eXs=0, eYs=0, dataLabel=r"Antinu for DM mass of "+str(dmMasses[i])+"GeV", colour=colours[i], lines=False, scale=0.5, marker='s')
 if gl.plot:
 	if gl.save:
-		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_all.pdf",resolution=500)
+		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_all_WW.pdf",resolution=500)
 	else:
 		rp.plotOutput()
 
