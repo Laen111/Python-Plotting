@@ -111,7 +111,6 @@ colours = ["black","silver","brown","lightsalmon","darkorange","goldenrod","yell
 ax = rp.plotInit(xAx=r"Neutrino Energy [GeV]", yAx=r"Neutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for neutrinos", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
 for i in range(len(colours)):
 	rp.plotData(ax, eners[i], nus[i], eXs=0, eYs=0, dataLabel=r"DM mass of "+str(dmMasses[i])+"GeV", colour=colours[i], lines=False, scale=1.0)
-# rp.plotData(ax, logNuEner, antiNuYield, eXs=0, eYs=0, dataLabel=r"Antineutrinos", colour="Red", lines=False, scale=1.0)
 if gl.plot:
 	if gl.save:
 		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_neutrinos.pdf",resolution=500)
@@ -121,10 +120,19 @@ if gl.plot:
 ax = rp.plotInit(xAx=r"Antineutrino Energy [GeV]", yAx=r"Antineutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for antineutrinos", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
 for i in range(len(colours)):
 	rp.plotData(ax, eners[i], antinus[i], eXs=0, eYs=0, dataLabel=r"DM mass of "+str(dmMasses[i])+"GeV", colour=colours[i], lines=False, scale=1.0)
-# rp.plotData(ax, logNuEner, antiNuYield, eXs=0, eYs=0, dataLabel=r"Antineutrinos", colour="Red", lines=False, scale=1.0)
 if gl.plot:
 	if gl.save:
 		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_antineutrinos.pdf",resolution=500)
+	else:
+		rp.plotOutput()
+
+ax = rp.plotInit(xAx=r"Neutrino Energy [GeV]", yAx=r"Neutrino Yields $[m^2 \times GeV \times annihilation]^{-1}$", plotTitle=r"nuyield output for neutrinos and antineutrinos", grid=True, log=True)#, xLimits=[0,10], yLimits=[-0.1,1.1])
+for i in range(len(colours)):
+	rp.plotData(ax, eners[i], nus[i], eXs=0, eYs=0, dataLabel=r"Nu for DM mass of "+str(dmMasses[i])+"GeV", colour=colours[i], lines=False, scale=1.0, marker='^')
+	rp.plotData(ax, eners[i], antinus[i], eXs=0, eYs=0, dataLabel=r"Antinu for DM mass of "+str(dmMasses[i])+"GeV", colour=colours[i], lines=False, scale=1.0, marker='s')
+if gl.plot:
+	if gl.save:
+		rp.plotOutput(savefigname=plotFolder+"nuyieldoutput_all.pdf",resolution=500)
 	else:
 		rp.plotOutput()
 
